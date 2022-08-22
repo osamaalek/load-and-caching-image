@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">E Test</string>
+    <string name="get_image">جلب صورة</string>
+    <string name="error_message_no_internet">يرحى التحقق من اتصالاك بالانترنت والمحاولة مجددا</string>
+</resources>

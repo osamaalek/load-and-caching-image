@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">E Test</string>
+    <string name="get_image">Get Image</string>
+    <string name="error_message_no_internet">Please check your internet and try again</string>
 </resources>

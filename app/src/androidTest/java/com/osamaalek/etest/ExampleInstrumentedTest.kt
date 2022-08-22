@@ -1,12 +1,22 @@
 package com.osamaalek.etest
 
-import androidx.test.platform.app.InstrumentationRegistry
+import android.os.Handler
+import android.os.Looper
+import android.os.SystemClock
+import android.view.View
+import androidx.lifecycle.Lifecycle
+import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.matcher.ViewMatchers.isRoot
+import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-
+import org.hamcrest.Matcher
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -15,10 +25,32 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+    @get:Rule
+    public var activityScenarioRule: ActivityScenarioRule<MainActivity?>? = ActivityScenarioRule(MainActivity::class.java)
+
     @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("com.osamaalek.etest", appContext.packageName)
+    fun clicksForEver() {
+
+        while (true) {
+
+            if(activityScenarioRule!!.scenario.state == Lifecycle.State.DESTROYED)
+                return
+
+            onView(withId(R.id.button)).perform(click())
+            onView(isRoot()).perform(waitFor(5000))
+        }
+
     }
+
+    private fun waitFor(delay: Long): ViewAction? {
+        return object : ViewAction {
+            override fun getConstraints(): Matcher<View> = isRoot()
+            override fun getDescription(): String = "wait for $delay milliseconds"
+            override fun perform(uiController: UiController, v: View?) {
+                uiController.loopMainThreadForAtLeast(delay)
+            }
+        }
+    }
+
 }
