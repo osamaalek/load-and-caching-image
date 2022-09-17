@@ -1,8 +1,5 @@
 package com.osamaalek.etest
 
-import android.os.Handler
-import android.os.Looper
-import android.os.SystemClock
 import android.view.View
 import androidx.lifecycle.Lifecycle
 import androidx.test.espresso.Espresso.onView

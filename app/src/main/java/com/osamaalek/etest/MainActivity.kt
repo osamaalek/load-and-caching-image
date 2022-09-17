@@ -1,18 +1,18 @@
 package com.osamaalek.etest
 
 import android.graphics.Bitmap
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.osamaalek.etest.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityMainBinding
-    private var job : Job? = null
-    private lateinit var result : Deferred<Bitmap?>
+    private lateinit var binding: ActivityMainBinding
+    private var job: Job? = null
+    private lateinit var result: Deferred<Bitmap?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.button.setOnClickListener {
             // to make sure only one connection at the same time
-            if(job == null || job?.isActive == false)
-                fetchNewImage()
+            if (job == null || job?.isActive == false) fetchNewImage()
         }
     }
 
@@ -38,7 +37,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
     private fun fetchNewImage() {
         //disable the button
         binding.button.isEnabled = false
@@ -47,12 +45,15 @@ class MainActivity : AppCompatActivity() {
             try {
                 // get an image from URL
                 CachingUtil.getBitmapFromURL()
-            } catch(e:IOException) {
+            } catch (e: IOException) {
                 // handel the errors such as no internet, timeout, .......
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     // show general error message
-                    Toast.makeText(this@MainActivity,getString(R.string.error_message_no_internet),
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MainActivity,
+                        getString(R.string.error_message_no_internet),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     // enable the button
                     binding.button.isEnabled = true
                 }
@@ -77,5 +78,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
